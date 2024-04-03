@@ -1,0 +1,107 @@
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../../Public/fonts/Roboto-MediumItalic.ttf') format('truetype');
+}
+
+
+:root{
+    --main-color:#223f93;
+    --green:#1cb45b;
+    --orange:#f39c12;
+    --white:#fff;
+    --black:#2c3e50;
+    --light-color:#888;
+    --light-bg:#eee;
+    --border:.1rem solid rgba(0,0,0,.2);
+}
+
+body {
+    font-family: 'Roboto-Medium', sans-serif;
+    background-color: var(--light-bg);
+}
+
+.formContainer{
+    margin-top: 100px;
+    height: 150px;
+    padding: 20px 15%;
+    color: #626262;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+
+.recommendation_list span{
+    color: black;
+    font-weight: lighter;
+}
+
+.recommendation_list ul li{
+    color: var(--main-color);
+}
+
+.postContainer{
+    position: relative; /* Change position to relative */
+    display: flex;
+    max-width: 1500px;
+    margin: 40px auto 60px; /* Add margin:auto to center horizontally */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+aside{
+    flex-basis: 29%;
+    background-color: #fff;
+    padding: 20px;
+    margin-right:10px;
+}
+
+.posts{
+    flex-basis: 70%;
+    background-color: #fff;
+
+}
+
+.label_options label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.range .field{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+#slider::-webkit-slider-thumb{
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    z-index:3;
+    position: relative;
+}
+
+.nav-pills .nav-item .active {
+    border-bottom: 2px solid var(--primary);
+}
+
+.job-item {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    transition: .5s;
+}
+
+.job-item:hover {
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: none;
+}
+
+/* Job details */
+
+.job_container{
+    margin-top: 80px;
+}

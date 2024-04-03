@@ -1,0 +1,189 @@
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../../Public/fonts/Roboto-MediumItalic.ttf') format('truetype');
+}
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+:root{
+    --main-color:#223f93;
+    --green:#1cb45b;
+    --orange:#f39c12;
+    --white:#fff;
+    --black:#2c3e50;
+    --light-color:#888;
+    --light-bg:#eee;
+    --border:.1rem solid rgba(0,0,0,.2);
+}
+
+body {
+    font-family: 'Roboto-Medium', sans-serif;
+}
+
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+/*** Slider ***/
+
+.carousel{
+    width: 100vw;
+    height: 35rem;
+    position: relative;
+}
+
+.carousel > ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.slide{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: 200ms opacity ease-in-out;
+    transition-delay: 200ms;
+}
+
+.slide > img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.slide[data-active] {
+    opacity: 1;
+    z-index: 1;
+    transition-delay: 0ms;
+}
+
+.carousel-button{
+    position: absolute;
+    z-index:2;
+    background-color: none;
+    border: none;
+    font-size:4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, .5);
+    cursor: pointer;
+    border-radius: .25rem;
+    padding: 0 .5rem;
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.carousel-button:hover,
+.carousel-button:focus{
+    color: white;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.carousel-button:focus{
+    outline: 1px solid black;
+}
+
+.carousel-button.prev{
+    left:1rem;
+}
+
+.carousel-button.next{
+    right: 1rem;
+}
+
+/*** Category ***/
+.cat-item {
+    display: block;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    border: 1px solid transparent;
+    transition: .5s;
+}
+
+.cat-item:hover {
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: none;
+}
+
+.search_section{
+    background-color: var(--main-color);
+}
+/*** Category ***/
+
+.category_icon{
+    color: var(--main-color);
+}
+
+.category_links {
+    text-decoration: none;
+}
+.category_links h6{
+    color: black;
+}
+
+.category_links p{
+    color: var(--main-color);
+}
+.cat-item {
+    display: block;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    border: 1px solid transparent;
+    transition: .5s;
+}
+
+.cat-item:hover {
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: none;
+}
+
+/*** About ***/
+.about-bg {
+    background-image: -webkit-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
+    background-image: -moz-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
+    background-image: -ms-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
+    background-image: -o-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
+    background-image: repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
+    background-size: 5px 5px;
+}
+
+.about_images{
+    width: 348px;
+    height: 348px;
+}
+
+.about_images2{
+    width: 295.8px;
+    height: 295.8px;
+}
+
+/*** Job Listing ***/
+.nav-pills .nav-item .active {
+    border-bottom: 2px solid var(--primary);
+}
+
+.job-item {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    transition: .5s;
+}
+
+.job-item:hover {
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: none;
+}
+
