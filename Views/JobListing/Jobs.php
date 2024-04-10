@@ -39,6 +39,8 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -150,8 +152,8 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                     <div class="label_options">
                         <label for="permanent">
                             <input class="form_check_input" id="permanent" name="permanent" type="checkbox"
-                                value="Permanent">
-                            <a href="#">
+                                value="permanent">
+                            <a>
                                 Permanent
                                 <span class="number of options"></span>
                             </a>
@@ -159,7 +161,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                         <label for="temporary">
                             <input class="form_check_input" id="temporary" name="temporary" type="checkbox"
                                 value="temporary">
-                            <a href="#">
+                            <a>
                                 Temporary
                                 <span class="number of options"></span>
                             </a>
@@ -167,7 +169,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                         <label for="contract">
                             <input class="form_check_input" id="contract" name="contract" type="checkbox"
                                 value="contract">
-                            <a href="#">
+                            <a>
                                 Contract
                                 <span class="number of options"></span>
                             </a>
@@ -175,7 +177,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                         <label for="full_time">
                             <input class="form_check_input" id="full_time" name="full_time" type="checkbox"
                                 value="full_time">
-                            <a href="#">
+                            <a>
                                 Full-time
                                 <span class="number of options"></span>
                             </a>
@@ -183,7 +185,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                         <label class="mb-3" for="part_time">
                             <input class="form_check_input" id="part_time" name="part_time" type="checkbox"
                                 value="part_time">
-                            <a href="#">
+                            <a>
                                 Part-time
                                 <span class="number of options"></span>
                             </a>
@@ -192,7 +194,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                         <label class="mt-3" for="home_work">
                             <input class="form_check_input" id="home_work" name="home_work" type="checkbox"
                                 value="home_work">
-                            <a href="#">
+                            <a>
                                 Work from home
                                 <span class="number of options"></span>
                             </a>
@@ -384,49 +386,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                     <div class="tab-content">
-                        <div class="tab-pane fade show p-0 active">
-                            <?php foreach ($jobs as $job): ?>
-                                <div class="job-item p-4 mb-4">
-                                    <div class="row g-4">
-                                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <!-- Display job details -->
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg"
-                                                alt="" style="width: 80px; height: 80px;">
-                                            <div class="text-start ps-4">
-                                                <h5 class="mb-3">
-                                                    <?php echo $job->getTitle(); ?>
-                                                </h5>
-                                                <span class="text-truncate me-3"><i
-                                                        class="fa fa-map-marker-alt text-primary me-2"></i>
-                                                    <?php echo $job->getLocation(); ?>
-                                                </span>
-                                                <span class="text-truncate me-3"><i
-                                                        class="far fa-clock text-primary me-2"></i>
-                                                    <?php echo $job->getJobType(); ?>
-                                                </span>
-                                                <span class="text-truncate me-0"><i
-                                                        class="far fa-money-bill-alt text-primary me-2"></i>
-                                                    <?php echo $job->getSalary(); ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                            <div class="d-flex mb-3">
-                                                <a class="btn btn-light btn-square me-3" href=""><i
-                                                        class="far fa-heart text-primary"></i></a>
-                                                <a class="btn btn-primary"
-                                                    href="job_details.php?job_id=<?php echo $job->getId(); ?>">Apply Now</a>
-                                            </div>
-                                            <small class="text-truncate"><i
-                                                    class="far fa-calendar-alt text-primary me-2"></i>Date Line:
-                                                <?php echo $job->getPositionDate(); ?>
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+
 
 
                     </div>
@@ -439,10 +399,8 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
             </div>
         </main>
     </div>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

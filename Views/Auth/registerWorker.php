@@ -1,6 +1,6 @@
 <?php
 require_once "../../config.php";
-require_once "../../Controllers/userC";
+require_once "../../Controllers/userC.php";
 session_start();
 
 

@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../../Public/fonts/Roboto-MediumItalic.ttf') format('truetype');
+}
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+:root{
+    --main-color:#223f93;
+    --green:#1cb45b;
+    --orange:#f39c12;
+    --white:#fff;
+    --black:#2c3e50;
+    --light-color:#888;
+    --light-bg:#eee;
+    --border:.1rem solid rgba(0,0,0,.2);
+}
+
+body {
+    font-family: 'Roboto-Medium', sans-serif;
+    background: #edf2f5;
+    padding: 30px;
+}
+
+.dropdown a b{
+    color: #fff;
+}
+
+.dropdown-menu{
+    border-radius: 0;
+    padding: 10px;
+    width: 145%;
+}
+
+.headItem{
+    margin-top: -17px;
+    margin-left: 42px;
+}
+
+.panel-heading{
+    background: #ffffff;
+    padding-bottom:19px;
+}
+
+

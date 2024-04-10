@@ -1,7 +1,7 @@
 <?php
 require_once "../../config.php";
 require_once "../../Models/user.php";
-require_once "../../Controllers/userC";
+require_once "../../Controllers/userC.php";
 
 session_start();
 
@@ -44,6 +44,8 @@ $countries = $stmt->fetchAll(PDO::FETCH_COLUMN);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="stylee.css">
     <title>Document</title>
     <link rel="stylesheet" href="stylee.css">
 </head>
@@ -314,7 +316,6 @@ $countries = $stmt->fetchAll(PDO::FETCH_COLUMN);
                     class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
             </div>
         </form>
-        <script src="script.js"></script>
 </body>
 
 </html>

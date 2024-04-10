@@ -2,7 +2,7 @@
 require_once "../../config.php";
 
 // Retrieve job ID from the query parameter
-$job_id = $_GET['job_id'];
+$job_id = $_GET['id'];
 
 // Fetch job details from the database based on the job ID
 // Replace 'your_table_name' with the actual table name where job details are stored
@@ -180,7 +180,6 @@ if ($job) {
     </html>
     <?php
 } else {
-    // Job details not found, display error message or redirect
     echo "Job not found";
 }
 ?>

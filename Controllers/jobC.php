@@ -2,10 +2,7 @@
 
 require_once "../../config.php";
 require_once "../../Models/job.php";
-require_once "../../vendor/autoload.php";
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
 
 
 class JobC
@@ -20,39 +17,35 @@ class JobC
 
     public function getJobs($offset, $limit, $location = null, $type = null, $salary = null)
     {
+
+
+
         $jobs = array();
 
         $job_query = "SELECT * FROM job_posts WHERE 1";
         $params = array();
 
         if ($location) {
-            $job_query .= " AND location = :location";
-            $params[':location'] = $location;
+            $job_query .= " AND location = ?";
+            $params[] = $location;
         }
 
         if ($type) {
-            $job_query .= " AND job_type = :type";
-            $params[':type'] = $type;
+            $job_query .= " AND job_type = ?";
+            $params[] = $type;
         }
 
         if ($salary) {
-            $job_query .= " AND salary >= :salary";
-            $params[':salary'] = $salary;
+            $job_query .= " AND salary >= ?";
+            $params[] = $salary;
         }
 
-        $job_query .= " LIMIT :offset, :limit";
-        $params[':offset'] = (int) $offset;
-        $params[':limit'] = (int) $limit;
+
 
         $job_query_run = $this->pdo->prepare($job_query);
 
-        // Bind parameters
-        foreach ($params as $param => $value) {
-            $job_query_run->bindValue($param, $value);
-        }
-
         // Execute prepared statement
-        $job_query_run->execute();
+        $job_query_run->execute($params);
 
         // Fetch one row at a time
         while ($row = $job_query_run->fetch(PDO::FETCH_ASSOC)) {

@@ -338,3 +338,57 @@ body {
     width: 26px;
     margin-right: 10px;
 }
+
+.Post_btn{
+    position: absolute;
+    margin: 5px;
+    right: 15%;
+}
+
+.backdrop{
+        display: none;
+
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+}
+
+.edit_modal {
+    display: none;
+    position: fixed;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 1000px;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+  .post_modal {
+    display: none;
+    position: fixed;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 1000px;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+
+@media (max-width:400px)
+{
+    .edit_modal{
+        width: 300px;
+        left: calc(50%-150px);
+    }
+}

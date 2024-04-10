@@ -365,17 +365,30 @@ class UserC
                 $user = $this->validateUser($email, $password);
 
                 if ($user) {
-                    // Set user data in the User object
-                    $userModel->setId($user['id']);
-                    $userModel->setFullname($user['fullname']);
-                    $userModel->setEmail($user['email']);
-                    $userModel->setPassword($user['password']);
-                    $userModel->setVerifyToken($user['verifyToken']);
+                    if ($user['userType'] == "Admin") {
+                        $userModel->setId($user['id']);
+                        $userModel->setFullname($user['fullname']);
+                        $userModel->setEmail($user['email']);
+                        $userModel->setPassword($user['password']);
+                        $userModel->setVerifyToken($user['verifyToken']);
 
-                    session_start();
-                    $_SESSION["user"] = $userModel; // Store User object in session
-                    header("Location: ../Profile/profilee.php");
-                    die();
+                        session_start();
+                        $_SESSION["user"] = $userModel;
+                        header("Location: ../AdminDash/dashboard.php");
+                        die();
+                    } else {
+                        $userModel->setId($user['id']);
+                        $userModel->setFullname($user['fullname']);
+                        $userModel->setEmail($user['email']);
+                        $userModel->setPassword($user['password']);
+                        $userModel->setVerifyToken($user['verifyToken']);
+
+                        session_start();
+                        $_SESSION["user"] = $userModel;
+                        header("Location: ../Profile/profilee.php");
+                        die();
+                    }
+
                 } else {
                     echo "<div class='alert alert-danger'>Invalid email or password</div>";
                 }
@@ -497,12 +510,10 @@ class UserC
                 // Handle profile picture upload
                 $profilePicPath = $this->uploadFile($_FILES["profile_pic"], "../../Users_images/ProfilePic/", $email);
 
-                // Establish database connection
-                $pdo = config::getConnexion();
 
                 //get the country id
                 $country_sql = "SELECT id FROM countries WHERE name = ?";
-                $country_sql_run = $pdo->prepare($country_sql);
+                $country_sql_run = $this->pdo->prepare($country_sql);
                 $country_sql_run->execute([$country]);
                 $countryId = $country_sql_run->fetchColumn();
 
@@ -527,7 +538,7 @@ class UserC
                 $params[] = $email;
 
                 // Prepare and execute the query
-                $stmt = $pdo->prepare($sql);
+                $stmt = $this->pdo->prepare($sql);
                 $stmt->execute($params);
 
                 // Redirect to profile page after successful update
