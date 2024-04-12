@@ -26,6 +26,10 @@ if ($stmt->rowCount() > 0) {
     exit(); // Terminate script execution after redirection
 }
 
+$sql = "SELECT name FROM countries";
+$stmt = $pdo->query($sql);
+$countries = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
 $country_sql = "SELECT name FROM countries WHERE id = ?";
 $country_sql_run = $pdo->prepare($country_sql);
 $country_sql_run->execute([$userData['country_id']]);
@@ -310,165 +314,151 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form action="profilee.php" method="post" enctype="multipart/form-data">
             <div class="space-y-12">
                 <div class="border-b border-gray-900/10 pb-12">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so
-                        be
-                        careful what you share.</p>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Create a post </h2>
 
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div class="sm:col-span-4">
-                            <label for="company_name" class="block text-sm font-medium leading-6 text-gray-900">Company
-                                Name</label>
+                            <label for="Employer"
+                                class="block text-sm font-medium leading-6 text-gray-900">Employer</label>
                             <div class="mt-2">
                                 <div
                                     class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                    <span
-                                        class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">HireEm.com/</span>
-                                    <input type="text" name="Fullname" id="Fullname" autocomplete="Fullname"
-                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                        value="<?php echo $userData['fullname']; ?>">
+
+                                    <input type="text" name="Employer" id="Employer" autocomplete="Employer"
+                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                                 </div>
                             </div>
                         </div>
 
                         <div class="sm:col-span-4">
-                            <label for="Phone_num" class="block text-sm font-medium leading-6 text-gray-700">Phone
-                                Number</label>
+                            <label for="jobTitle" class="block text-sm font-medium leading-6 text-gray-700">Job
+                                Title</label>
                             <div class="mt-2">
-                                <input id="Phone_num" name="Phone_num" type="text" autocomplete="Phone_num"
-                                    value="<?php echo $userData['phone_num']; ?>"
+                                <input id="jobTitle" name="jobTitle" type="text" autocomplete="jobTitle"
                                     class="p-2 block w-1/2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                             </div>
                         </div>
 
-                        <div class="col-span-full">
-                            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
+                        <div class="sm:col-span-3">
+                            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Type of
+                                job</label>
                             <div class="mt-2">
-                                <textarea id="about" name="about" rows="3"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"><?php echo $userData['about']; ?></textarea>
-                            </div>
-                            <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.
-                            </p>
-                        </div>
-
-                        <div class="col-span-full">
-                            <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-                            <div class="mt-2 flex items-center gap-x-3">
-                                <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor"
-                                    aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <div class="flex text-sm leading-6 text-gray-600">
-                                    <label for="profile_pic" class="relative cursor-pointer">
-                                        <span
-                                            class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                            Change
-                                        </span>
-                                        <input id="profile_pic" name="profile_pic" type="file" class="sr-only"
-                                            accept="image/*">
-                                    </label>
-                                </div>
-
-
+                                <select id="country" name="country" autocomplete="country-name"
+                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option value="Permanent">Permanent</option>
+                                    <option value="temporary">Temporary</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="full_time">Full-time </option>
+                                    <option value="part_time">Part-time </option>
+                                </select>
                             </div>
                         </div>
+                        <div class="sm:col-span-4">
+                            <label for="location"
+                                class="block text-sm font-medium leading-6 text-gray-900">Location</label>
+                            <div class="mt-2">
+                                <div
+                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
 
-                        <div class="col-span-full">
-                            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover
-                                photo</label>
-                            <div
-                                class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <div class="text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <label for="cover_upload"
-                                            class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                            <span>Upload a file</span>
-                                            <input id="cover_upload" name="cover_upload" type="file" class="sr-only">
-                                        </label>
-                                        <p class="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                    <input type="text" name="location" id="location" autocomplete="Employer"
+                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-4">
+                            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                            <div class="mt-2">
+                                <div
+                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+
+                                    <input type="text" name="city" id="city" autocomplete="city"
+                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-4">
+                            <label for="experience" class="block text-sm font-medium leading-6 text-gray-900">Preferred
+                                Year Of Experience</label>
+                            <div class="mt-2">
+                                <div
+                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <input type="text" name="experience" id="experience" autocomplete="experience"
+                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label for="industry"
+                                class="block text-sm font-medium leading-6 text-gray-900">Industry</label>
+                            <div class="mt-2">
+                                <select id="industry" name="industry" autocomplete="industry"
+                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option value="marketing">IT</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="legal">Legal</option>
+                                    <option value="sales">sales</option>
+                                    <option value="banking">Banking</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-4">
+                            <label for="experience" class="block text-sm font-medium leading-6 text-gray-900">Preferred
+                                Year Of Experience</label>
+                            <div class="mt-2">
+                                <div
+                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <input type="text" name="experience" id="experience" autocomplete="experience"
+                                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label for="degree" class="block text-sm font-medium leading-6 text-gray-900">Degree</label>
+                            <div class="mt-2">
+                                <select id="degree" name="degree" autocomplete="degree"
+                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option value="no_degree">No degree</option>
+                                    <option value="bachelor">Bachelor</option>
+                                    <option value="masters">Masters</option>
+                                    <option value="phd">PHD</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="border-b border-gray-900/10 pb-12">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive
-                        mail.
-                    </p>
-
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Job description</h2>
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div class="sm:col-span-3">
-                            <label for="EducationLvl" class="block text-sm font-medium leading-6 text-gray-900">Level of
-                                Education</label>
+                        <div class="sm:col-span-4">
+                            <label for="description"
+                                class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                             <div class="mt-2">
-                                <input type="text" name="EducationLvl" id="EducationLvl" autocomplete="education-level"
-                                    value="<?php echo $userData['education']; ?>"
-                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3">
-                            <label for="Education_ins"
-                                class="block text-sm font-medium leading-6 text-gray-900">Education
-                                Institution</label>
-                            <div class="mt-2">
-                                <input type="text" name="Education_ins" id="Education_ins"
-                                    autocomplete="Education-Institution" value="<?php echo $userData['school']; ?>"
-                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <textarea id="description" name="description" rows="5"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                             </div>
                         </div>
 
                         <div class="sm:col-span-4">
-                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
-                                Address</label>
+                            <label for="attachments"
+                                class="block text-sm font-medium leading-6 text-gray-900">Attachments</label>
                             <div class="mt-2">
-                                <input id="email" name="email" type="email" autocomplete="email" value=<?php echo $email; ?>
+                                <input id="attachments" name="attachments[]" type="file" multiple
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <p class="mt-2 text-sm text-gray-500">You can upload one or more files.</p>
+                            </div>
+                        </div>
+
+
+                        <div class="sm:col-span-4">
+                            <label for="salary" class="block text-sm font-medium leading-6 text-gray-900">Salary</label>
+                            <div class="mt-2">
+                                <input id="salary" name="salary" type="salary" autocomplete="salary"
                                     class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     readonly>
                             </div>
                         </div>
-
-                        <div class="sm:col-span-3">
-                            <label for="country"
-                                class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-                            <div class="mt-2">
-                                <select id="country" name="country" autocomplete="country-name"
-                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                    <?php
-                                    // Loop through the countries fetched from the database and populate the options
-                                    foreach ($countries as $country) {
-                                        echo "<option>$country</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-
-
-                        <div class="sm:col-span-2 sm:col-start-1">
-                            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
-                            <div class="mt-2">
-                                <input type="text" name="city" id="city" autocomplete="address-level2"
-                                    value="<?php echo $userData['City']; ?>"
-                                    class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-
-
                     </div>
                 </div>
 
