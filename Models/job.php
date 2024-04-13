@@ -21,7 +21,7 @@ class Job
 
     // Constructor to initialize the object with values
     function __construct(
-        $id,
+
         $companyName,
         $title,
         $function,
@@ -36,10 +36,10 @@ class Job
         $salary,
         $recruiterId,
         $recruiterName,
-        $status
+        $status,
+        $id
     ) {
         // Assign the provided values to the corresponding properties
-        $this->id = $id;
         $this->companyName = $companyName;
         $this->title = $title;
         $this->function = $function;
@@ -55,6 +55,7 @@ class Job
         $this->recruiterId = $recruiterId;
         $this->recruiterName = $recruiterName;
         $this->status = $status;
+        $this->id = $id;
     }
 
     // Getters

@@ -115,6 +115,29 @@ class JobC
         }
     }
 
+    public function register($user_type)
+    {
+        try {
+            if (isset($_POST["submit"])) {
+                $fullname = $_POST["fullname"];
+                $email = $_POST["email"];
+                $tel = $_POST["tel"];
+                $password = $_POST["password"];
+                $confirm_password = $_POST["confirm_password"];
 
+                // Create a new Job instance based on user type
+                $newJob = new Job($companyName, $jobTitle, $jobFunction, $location, $verify_token, $user_type);
+
+                // Save the new job to the database
+                $this->saveJobToDatabase($newJob);
+
+                $_SESSION['status'] = "<div class='alert alert-success'>You are registered successfully! Please verify your email address.</div>";
+                header("Location: ../../Views/Auth/login.php");
+                exit(); // Add exit() after header to stop further execution
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 
 }
