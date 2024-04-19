@@ -60,12 +60,12 @@ class UserC
         $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
         $mail->Username = $config['email']['ADDRESS'];                  //SMTP username
-        $mail->Password = $config['email']['PASSWORD'];                         //SMTP password
+        $mail->Password = $config['email']['PASSWORD'];                           //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port = 465;                                //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('', 'Mailer');
+        $mail->setFrom($config['email']['ADDRESS'], 'Mailer');
         // $mail->addAddress($email, $fullname);     //Add a recipient
         $mail->addAddress($email);               //Name is optional
         // $mail->addReplyTo('info@example.com', 'Information');
@@ -143,7 +143,7 @@ class UserC
         $mail->Port = 465;                                //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('', 'Mailer');
+        $mail->setFrom($config['email']['ADDRESS'], 'Mailer');
         // $mail->addAddress($email, $fullname);     //Add a recipient
         $mail->addAddress($email);               //Name is optional
         // $mail->addReplyTo('info@example.com', 'Information');
@@ -477,7 +477,7 @@ class UserC
         $pdo = config::getConnexion();
         $sql = "INSERT INTO users (fullname, email, password, phone_num, verifyToken, userType) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$user->getFullname(), $user->getEmail(), $user->getPassword(), $user->getPhoneNum(), $user->getVerifyToken(), $user->getUserType]);
+        $stmt->execute([$user->getFullname(), $user->getEmail(), $user->getPassword(), $user->getPhoneNum(), $user->getVerifyToken(), "Employer"]);
     }
 
     public function logout()
@@ -493,7 +493,7 @@ class UserC
     public function edit_profile($email)
     {
         try {
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Handle other form fields for profile update
                 $fullname = $_POST["Fullname"];
                 $tel = $_POST["Phone_num"];
@@ -585,11 +585,177 @@ class UserC
         return $filePath;
     }
 
+    public function getusers()
+    {
+        $users = array();
+        $user_query = "SELECT fullname, email, phone_num FROM users";
+        $user_query_run = $this->pdo->query($user_query);
+
+        while ($row = $user_query_run->fetch(PDO::FETCH_ASSOC)) {
+            // Create a simplified User object with only fullname, email, and phone_num
+            $user = new User(
+                $row['fullname'],
+                $row['email'],
+                $row['phone_num'] // Update to match the column name in the database schema
+            );
+
+            // Add the simplified user object to the array
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+    public function edit_user($email)
+    {
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])) {
+                // Handle other form fields for profile update
+                $fullname = $_POST["Fullname"];
+                $tel = $_POST["Phone_num"];
+                $about = $_POST["about"];
+                $educationLvl = $_POST["EducationLvl"];
+                $school = $_POST["Education_ins"];
+                $city = $_POST["city"];
+                $country = $_POST["country"];
 
 
+                // Handle cover picture upload
+                $coverImgPath = $this->uploadFile($_FILES["cover_upload"], "../../Users_images/CoverImg/", $email);
+
+                // Handle profile picture upload
+                $profilePicPath = $this->uploadFile($_FILES["profile_pic"], "../../Users_images/ProfilePic/", $email);
 
 
+                //get the country id
+                $country_sql = "SELECT id FROM countries WHERE name = ?";
+                $country_sql_run = $this->pdo->prepare($country_sql);
+                $country_sql_run->execute([$country]);
+                $countryId = $country_sql_run->fetchColumn();
 
+                // Build and execute the SQL query to update the user's profile
+                $sql = "UPDATE users SET fullname = ?, phone_num = ?, about = ?, education = ?, school = ?, country_id = ?, City = ?";
+                $params = [$fullname, $tel, $about, $educationLvl, $school, $countryId, $city];
+
+                // Append cover image path if available
+                if ($coverImgPath) {
+                    $sql .= ", CoverIMG = ?";
+                    $params[] = $coverImgPath;
+                }
+
+                // Append profile picture path if available
+                if ($profilePicPath) {
+                    $sql .= ", ProfilePic = ?";
+                    $params[] = $profilePicPath;
+                }
+
+                // Add WHERE clause for email
+                $sql .= " WHERE email = ?";
+                $params[] = $email;
+
+                // Prepare and execute the query
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute($params);
+
+                // Redirect to profile page after successful update
+                header("Location: ../../Views/AdminDash/dashboard.php");
+                exit; // Exit after redirection
+            }
+        } catch (PDOException $e) {
+            // Handle database errors
+            echo "Database Error: " . $e->getMessage();
+        }
+    }
+
+    public function delete_user($email)
+    {
+        // Connect to the database (assuming you have a method to do this)
+        $pdo = config::getConnexion();
+
+        // Prepare and execute a DELETE query to delete the user
+        $sql = "DELETE FROM users WHERE email = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
+
+        // Check if the user was successfully deleted
+        if ($stmt->rowCount() > 0) {
+            // User deleted successfully
+            return true;
+        } else {
+            // User not found or deletion failed
+            return false;
+        }
+    }
+
+    public function add_user($fullname, $email, $tel, $password)
+    {
+        try {
+            // Validate user input
+            $error = $this->validateRegistrationInputt($fullname, $email, $password);
+            if (!empty($error)) {
+                foreach ($error as $msg) {
+                    echo "<div class='alert alert-danger'>$msg</div>";
+                }
+                return false;
+            }
+
+            // Hash the password
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+            // Create a new User instance with isVerified set to true
+            $newUser = new User($fullname, $email, $passwordHash, $tel, null, "Employer", true);
+
+            // Check if email already exists
+            $pdo = config::getConnexion();
+            $sql = "SELECT * FROM users WHERE email = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$email]);
+            $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($existingUser) {
+                echo "<div class='alert alert-danger'>Email already exists</div>";
+                return false;
+            }
+
+            // Save the new user to the database
+            $this->saveUserToDatabasee($newUser);
+
+            // Display success message
+            echo "<div class='alert alert-success'>User added successfully!</div>";
+            return true;
+        } catch (PDOException $e) {
+            // Handle database errors
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    private function validateRegistrationInputt($fullname, $email, $password)
+    {
+        $error = [];
+
+        if (empty($fullname) || empty($email) || empty($password)) {
+            $error[] = "All fields are required";
+        } else {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error[] = "Email is not valid";
+            } else {
+                if (strlen($password) < 8) {
+                    $error[] = "Password must be at least 8 characters long";
+                }
+            }
+        }
+
+        return $error;
+    }
+
+    private function saveUserToDatabasee($user)
+    {
+        $pdo = config::getConnexion();
+        $sql = "INSERT INTO users (fullname, email, password, phone_num, verifyToken, userType) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$user->getFullname(), $user->getEmail(), $user->getPassword(), $user->getPhoneNum(), $user->getVerifyToken(), "Employer"]);
+    }
 }
+
+
 
 ?>

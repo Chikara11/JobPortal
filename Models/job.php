@@ -28,16 +28,11 @@ class Job
         $location,
         $seniorityLevel,
         $description,
-        $positionDate,
         $jobType,
         $industry,
         $experience,
         $degree,
         $salary,
-        $recruiterId,
-        $recruiterName,
-        $status,
-        $id
     ) {
         // Assign the provided values to the corresponding properties
         $this->companyName = $companyName;
@@ -46,16 +41,12 @@ class Job
         $this->location = $location;
         $this->seniorityLevel = $seniorityLevel;
         $this->description = $description;
-        $this->positionDate = $positionDate;
         $this->jobType = $jobType;
         $this->industry = $industry;
         $this->experience = $experience;
         $this->degree = $degree;
         $this->salary = $salary;
-        $this->recruiterId = $recruiterId;
-        $this->recruiterName = $recruiterName;
-        $this->status = $status;
-        $this->id = $id;
+
     }
 
     // Getters
@@ -94,10 +85,7 @@ class Job
         return $this->description;
     }
 
-    public function getPositionDate()
-    {
-        return $this->positionDate;
-    }
+
 
     public function getJobType()
     {
@@ -175,10 +163,7 @@ class Job
         $this->description = $description;
     }
 
-    public function setPositionDate($positionDate)
-    {
-        $this->positionDate = $positionDate;
-    }
+
 
     public function setJobType($jobType)
     {
