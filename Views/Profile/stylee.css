@@ -131,7 +131,7 @@ body {
 
 .profile_header .profile_images .pdp_container{
     position: absolute;
-    top: 430px;
+    top: 470px;
     left: 22%;
     transform: translatex(-50%);
 }

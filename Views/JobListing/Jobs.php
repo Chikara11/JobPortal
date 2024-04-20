@@ -58,28 +58,28 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
     <form action="" method="GET" class="formContainer border-b border-gray-/10">
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12 ">
             <div class="sm:col-span-5 flex">
-                <label class="block text-lg font-medium leading-6 text-gray-900 mt-3 mr-2">What</label>
-                <div class="mt-2 w-full">
+                <label class="bold-text block text-lg font-medium leading-6 text-gray-900 mt-3 mr-2">What</label>
+                <div class="search mt-2 w-full">
                     <input type="text" name="what" id="what" autocomplete="off" value="Developer"
                         class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ">
                 </div>
             </div>
 
             <div class="sm:col-span-5 flex">
-                <label class="block text-lg font-medium leading-6 text-gray-900 mt-3 mr-2">Where</label>
-                <div class="mt-2 w-full">
+                <label class="bold-text block text-lg font-medium leading-6 text-gray-900 mt-3 mr-2">Where</label>
+                <div class="search mt-2 w-full">
                     <input type="text" name="Education_ins" id="Education_ins" autocomplete="Education-Institution"
                         value="Tunis"
                         class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
             <div class="sm:col-span-2 mt-2">
-                <button class="p-2 px-4 rounded-md bg-indigo-600 text-white">Search jobs</button>
+                <button class="Button p-2 px-4 rounded-md bg-indigo-600 text-white">Search jobs</button>
             </div>
         </div>
         <div class="recommendation_list mt-2">
             <span>Similar searches</span>
-            <ul class=" flex">
+            <ul class="flex">
                 <li class="pl-3"><a href=""></a>Developer</li>
                 <li class="pl-3"><a href=""></a>Software engineer</li>
                 <li class="pl-3"><a href=""></a>Graphic designer</li>
@@ -383,7 +383,7 @@ $totalPages = ceil($totalJobs / $jobsPerPage);
         </aside>
         <main id="post_list" class="posts container-xxl py-5">
             <div class="container">
-                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+                <h2 class="h2 text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h2>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                     <div class="tab-content">
 

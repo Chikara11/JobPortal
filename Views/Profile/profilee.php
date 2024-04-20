@@ -448,12 +448,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
 
                         <div class="sm:col-span-4">
-                            <label for="attachments"
-                                class="block text-sm font-medium leading-6 text-gray-900">Attachments</label>
+                            <label for="Picture" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
                             <div class="mt-2">
-                                <input id="attachments" name="attachments[]" type="file" multiple
+                                <input id="Picture" name="Picture" type="file" multiple
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                <p class="mt-2 text-sm text-gray-500">You can upload one or more files.</p>
+                                <p class="mt-2 text-sm text-gray-500">Upload a picture for you post</p>
                             </div>
                         </div>
 
@@ -575,7 +574,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <p class="post-text">All alone in peace</p>
                     <img class="post_img" src="../../Public/images/2.jpg">
-
                 </div>
                 <div class="post-container">
                     <div class="post-row">

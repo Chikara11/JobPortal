@@ -62,6 +62,8 @@ class JobC
                 $row['experience'],
                 $row['degree'],
                 $row['salary'],
+                $row['Picture'],
+
             );
 
             // Add the job object to the array
@@ -125,6 +127,10 @@ class JobC
                 $description = $_POST["description"];
                 $seniorityLevel = $_POST["seniority"];
                 $salary = $_POST["salary"];
+                $picture = $_POST["picture"];
+
+                $Picture = $this->uploadFile($_FILES["Picture"], "../../Users_images/PostPic/", $id);
+
 
                 // Create a new Job instance based on user type
                 $newJob = new Job(
@@ -138,7 +144,8 @@ class JobC
                     $industry,
                     $experience,
                     $degree,
-                    $salary
+                    $salary,
+                    $picture,
                 );
 
                 $pdo = config::getConnexion();
@@ -155,7 +162,8 @@ class JobC
                     $industry,
                     $experience,
                     $degree,
-                    $salary
+                    $salary,
+                    $picture
                 ]);
                 header("Location: ../../Views/Profile/profilee.php");
                 exit();
@@ -165,4 +173,37 @@ class JobC
         }
     }
 
+
+    private function uploadFile($file, $uploadDirectory, $id)
+    {
+        $filePath = null;
+        if ($file["error"] == UPLOAD_ERR_OK) {
+            // Generate a unique filename to prevent conflicts
+            $fileName = uniqid() . "_" . basename($file["name"]);
+
+            // Build the destination path
+            $filePath = $uploadDirectory . $fileName;
+
+            // Retrieve old profile picture path from the database
+            $pdo = config::getConnexion();
+            $sql = "SELECT ProfilePic FROM users WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$id]);
+            $oldProfilePicPath = $stmt->fetchColumn();
+
+            // Move the uploaded file to the desired directory
+            if (!move_uploaded_file($file["tmp_name"], $filePath)) {
+                // Error occurred while uploading file
+                echo "Error uploading file.";
+                $filePath = null; // Reset filePath if upload fails
+            }
+
+            // Delete old profile picture if exists
+            if ($oldProfilePicPath && file_exists($oldProfilePicPath)) {
+                unlink($oldProfilePicPath);
+            }
+
+        }
+        return $filePath;
+    }
 }

@@ -18,6 +18,7 @@ class Job
     private $recruiterId;
     private $recruiterName;
     private $status;
+    private $picture;
 
     // Constructor to initialize the object with values
     function __construct(
@@ -33,6 +34,7 @@ class Job
         $experience,
         $degree,
         $salary,
+        $picture,
     ) {
         // Assign the provided values to the corresponding properties
         $this->companyName = $companyName;
@@ -46,6 +48,7 @@ class Job
         $this->experience = $experience;
         $this->degree = $degree;
         $this->salary = $salary;
+        $this->picture = $picture;
 
     }
 
@@ -127,6 +130,11 @@ class Job
         return $this->status;
     }
 
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
     // Setters
     public function setId($id)
     {
@@ -202,6 +210,11 @@ class Job
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
     }
 
 

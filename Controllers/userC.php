@@ -31,7 +31,6 @@ class UserC
         $user = $login_query_run->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Check if the 'password' key exists in the $user array
             if (array_key_exists('password', $user) && password_verify($password, $user["password"])) {
                 if ($user['verify_status'] == "1") {
                     return $user;
