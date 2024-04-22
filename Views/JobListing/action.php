@@ -25,38 +25,36 @@ if (isset($_POST['action'])) {
                 $conditions[] = "salary <= " . $salaryTo;
             }
 
-            // Handle other checkbox filters
+            // Handle job type filters
+            $selectedJobTypes = [];
             foreach ($filters as $filter => $value) {
                 if ($value === 'true') {
                     switch ($filter) {
                         case 'permanent':
-                            $conditions[] = "job_type = 'permanent'";
-                            break;
                         case 'temporary':
-                            $conditions[] = "job_type = 'temporary'";
-                            break;
                         case 'contract':
-                            $conditions[] = "job_type = 'contract'";
-                            break;
                         case 'full_time':
-                            $conditions[] = "job_type = 'full_time'";
-                            break;
                         case 'part_time':
-                            $conditions[] = "job_type = 'part_time'";
-                            break;
                         case 'home_work':
-                            $conditions[] = "job_type = 'home_work'";
+                            $selectedJobTypes[] = $filter;
                             break;
                     }
                 }
             }
 
+            // Add job type condition if any job types are selected
+            if (!empty($selectedJobTypes)) {
+                $conditions[] = "job_type IN ('" . implode("', '", $selectedJobTypes) . "')";
+            }
+
+            // Construct the final query
             if (!empty($conditions)) {
                 $query = "SELECT * FROM job_posts WHERE " . implode(" AND ", $conditions);
             } else {
                 $query = "SELECT * FROM job_posts";
             }
 
+            // Execute the query
             getData($query);
         }
     }
@@ -82,7 +80,7 @@ function getData($query)
                         <div class="row g-4">
                             <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                 <!-- Display job details -->
-                                <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
+                                <img class="flex-shrink-0 img-fluid border rounded" src="' . $row["Picture"] . '" alt="" style="width: 80px; height: 80px;">
                                 <div class="text-start ps-4">
                                     <h5 class="mb-3">' . $row['title'] . '</h5>
                                     <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>' . $row['location'] . '</span>

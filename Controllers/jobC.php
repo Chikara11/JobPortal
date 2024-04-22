@@ -127,12 +127,14 @@ class JobC
                 $description = $_POST["description"];
                 $seniorityLevel = $_POST["seniority"];
                 $salary = $_POST["salary"];
-                $picture = $_POST["picture"];
+                $picture = $_FILES["Picture"];
 
-                $Picture = $this->uploadFile($_FILES["Picture"], "../../Users_images/PostPic/", $id);
+                $pdo = config::getConnexion();
+                $id = $pdo->lastInsertId();
+                $profilePicPath = $this->uploadFile($picture, "../../Users_images/PostPic/", $id);
 
 
-                // Create a new Job instance based on user type
+
                 $newJob = new Job(
                     $companyName,
                     $jobTitle,
@@ -145,11 +147,12 @@ class JobC
                     $experience,
                     $degree,
                     $salary,
-                    $picture,
+                    $profilePicPath,
                 );
 
-                $pdo = config::getConnexion();
-                $sql = "INSERT INTO job_posts (company_name, title, function, location, seniority_lvl, description,job_type,industry,experience,degree,salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+                $sql = "INSERT INTO job_posts (company_name, title, function, location, seniority_lvl, description,job_type,industry,experience,degree,salary,Picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $companyName,
@@ -163,8 +166,11 @@ class JobC
                     $experience,
                     $degree,
                     $salary,
-                    $picture
+                    $profilePicPath
                 ]);
+
+
+
                 header("Location: ../../Views/Profile/profilee.php");
                 exit();
             }
@@ -186,7 +192,7 @@ class JobC
 
             // Retrieve old profile picture path from the database
             $pdo = config::getConnexion();
-            $sql = "SELECT ProfilePic FROM users WHERE id = ?";
+            $sql = "SELECT picture FROM job_posts WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$id]);
             $oldProfilePicPath = $stmt->fetchColumn();
